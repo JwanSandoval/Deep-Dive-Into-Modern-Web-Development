@@ -1,13 +1,30 @@
 ```mermaid
+
 sequenceDiagram
     participant browser
     participant server
 
-    browser->>server: Get https://studies.cs.helsinki.fi/exampleapp/notes
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
+    deactivate server
 
-    Note right of browser: To reduce Diagram initial css, js and json calls were skipped
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2025-09-02" }, ... ]
+    deactivate server
+
+    Note right of browser: User enters new note into text field and click save button
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
@@ -32,5 +49,5 @@ sequenceDiagram
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2025-09-02" }, ... ]
+    server-->>browser: [{ "content": "HTML is easy", "date": "2025-09-02" }, ... , {"content":"New Note","date":"202509-02"} ]
     deactivate server
