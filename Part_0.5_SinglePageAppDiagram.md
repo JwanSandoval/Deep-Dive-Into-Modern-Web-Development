@@ -7,11 +7,18 @@ sequenceDiagram
     activate server
     server-->>browser: HTML document
 
-    Note right of browser: To reduce Diagram initial css, js and json calls were skipped
 
-    Note right of browser:Browser starts executing javascript to send Json from form fields(Content,Date)
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa 
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
-    server-->>browser: StatusCode:201 Json:{"message":"note created"}
+    server-->>browser: the css file
+    deactivate server
 
-    Note right of browser:Browser stays on the same page, and it sends no further HTTP requests
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2025-09-02" }, ... ]
+    deactivate server
